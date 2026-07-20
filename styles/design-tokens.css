@@ -1,0 +1,49 @@
+/* ============================================================
+   Design tokens — palette, motion, type
+   Single source of truth. Tailwind maps onto these in globals.css.
+   ============================================================ */
+
+:root {
+  /* --- Surfaces: warm greige canvas, light theme --- */
+  --bg-canvas: #d6d1c4;
+  --bg-surface: #cfcabc;
+  --bg-elevated: #e2ded4;
+
+  /* --- Ink --- */
+  --ink: #111111;
+  /* Dark enough to clear 4.5:1 on --bg-surface too, not just the canvas.
+     The previous #5A564E passed on canvas (4.79) but failed inside the
+     profile panel (4.46). Now 5.5 / 5.1. */
+  --ink-muted: #524e46;
+  --ink-invert: #ffffff;
+
+  /* --- Gold ---
+     The reference uses a flat chartreuse yellow; this is pulled toward
+     gold. Contrast notes, measured against --bg-canvas:
+       ink on canvas ......... 12.5:1  AAA
+       ink on gold ...........  8.9:1  AAA  (buttons: gold fill, ink label)
+       ink-muted on canvas ...  4.9:1  AA
+       gold on canvas ........  1.3:1  DECORATIVE ONLY
+     Never set small copy in gold on the canvas — it fails at every size.
+     Gold is for the oversized wordmark, fills, icons and rules. */
+  --gold: #e6b31c;
+  --gold-bright: #f5ca3c;
+  --gold-deep: #9e7508;
+
+  /* --- Lines and frosted cards --- */
+  --stroke: rgba(17, 17, 17, 0.12);
+  --card-bg: rgba(255, 255, 255, 0.2);
+  --card-border: rgba(255, 255, 255, 0.38);
+
+  /* --- Motion --- */
+  --ease-entrance: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-state: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 180ms;
+  --dur-standard: 500ms;
+  --dur-cinematic: 900ms;
+  --stagger: 70ms;
+
+  /* --- Type --- */
+  --tracking-display: -0.03em;
+  --tracking-label: 0.1em;
+}
