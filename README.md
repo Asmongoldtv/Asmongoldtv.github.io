@@ -35,8 +35,8 @@ All optional — every fetcher degrades to curated fallback data.
 | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | canonical / OG / sitemap URL (set by the deploy workflow) |
 | `TWITCH_CLIENT_ID` / `TWITCH_CLIENT_SECRET` | live status + VODs |
-| `YOUTUBE_API_KEY` | latest videos |
 | `NEWS_FEED_URL` | news RSS feed |
+| `YOUTUBE_CHANNEL_ID` | override the channel the video sync reads (has a default) |
 
 Copy `.env.example` → `.env.local` to set them locally.
 
@@ -80,8 +80,37 @@ it to render the blockquotes. If the script is blocked (ad blockers commonly
 do) or JS is off, the blockquote stays visible as a styled link, so the
 section is never empty.
 
+## Videos
+
+The Latest Videos section shows the channel's six newest uploads, each
+playable inline.
+
+`data/videos.json` is refreshed by:
+
+```bash
+node scripts/sync-videos.mjs
+```
+
+That reads YouTube's **public per-channel RSS feed** — no API key, no quota.
+It keeps the newest `VIDEO_LIMIT` (default 6), so a new upload pushes the
+oldest one out, and it never throws: a feed outage logs a notice and leaves
+the file untouched.
+
+The deploy workflow runs it before every build, including on a 6-hour
+schedule, so new uploads appear on their own. It deliberately does **not**
+commit the result: view counts change constantly, which would mean a noisy
+commit on every run. The build reads the freshly synced file either way; the
+committed copy is the fallback used when the feed is unreachable.
+
+`components/ui/YouTubeEmbed.tsx` renders a thumbnail facade and only creates
+the real iframe on click. Six eagerly-loaded players would pull well over a
+megabyte of third-party script before anyone pressed play.
+
+> The RSS feed carries no duration, so durations are not shown — that field
+> only exists in the quota-limited Data API.
+
 ## Deploy
 
 `.github/workflows/deploy.yml` builds the static export and publishes it to
-GitHub Pages. It runs on every push to `main` and on demand via
-**Actions → Run workflow**.
+GitHub Pages. It runs on every push to `main`, on a 6-hour schedule (to pick
+up new uploads), and on demand via **Actions → Run workflow**.

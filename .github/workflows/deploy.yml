@@ -3,6 +3,9 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  # Pick up new YouTube uploads without anyone touching the repo.
+  schedule:
+    - cron: "0 */6 * * *"
   workflow_dispatch:
 
 # Least-privilege token that the Pages deploy needs.
@@ -28,6 +31,15 @@ jobs:
           cache: npm
 
       - run: npm ci
+
+      # Refreshes data/videos.json in the working tree only — deliberately
+      # not committed. View counts change constantly, so committing would
+      # produce a noisy commit every run; the build reads the fresh file
+      # either way, and the committed copy stays as the offline fallback.
+      # Never fails the deploy: on a feed outage it logs and leaves the
+      # file alone.
+      - name: Sync latest videos
+        run: node scripts/sync-videos.mjs
 
       - name: Build static export
         run: npm run build

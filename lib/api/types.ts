@@ -16,11 +16,13 @@ export type NewsItem = {
   image?: string;
 };
 
+/**
+ * Shape written by scripts/sync-videos.mjs. No duration: YouTube's public
+ * RSS feed does not carry one (that needs the quota-limited Data API).
+ */
 export type Video = {
-  id: string;
+  id: string; // YouTube video id; the thumbnail is derived from it
   title: string;
-  thumbnail: string;
-  duration: string; // "12:41"
   views: number;
   publishedAt: string; // ISO
   href: string;
