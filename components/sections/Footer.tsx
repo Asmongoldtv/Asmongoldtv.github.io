@@ -79,13 +79,13 @@ export function Footer() {
 
         <div className="mt-16 border-t border-hairline pt-6">
           <div className="flex flex-col gap-2 text-[11px] leading-relaxed tracking-[0.06em] text-muted md:flex-row md:justify-between">
-            <p>© {year} — All trademarks belong to their owners.</p>
+            <p>© {year} - All trademarks belong to their owners.</p>
             <p>
               Unofficial fan concept. Not affiliated with or endorsed by
               Asmongold or One True King.
             </p>
             <p>
-              Design &amp; Development from{" "}
+              Design &amp; Developed by{" "}
               <a
                 href="https://empdesigns.pt/"
                 target="_blank"
