@@ -10,12 +10,12 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: "Asmongold - Official Website from your Favorite Streamer",
   description:
-    "Zach "Asmongold" Hoyt Official Website. Check everything about your favorite Youtuber, Streamer, and Commentator. Lastest News, Tweets, Videos, and Vods",
+    "Zach 'Asmongold' Hoyt Official Website. Check everything about your favorite Youtuber, Streamer, and Commentator. Lastest News, Tweets, Videos, and Vods",
   alternates: { canonical: "/" },
   openGraph: {
     title: "Asmongold - Official Website from your Favorite Streamer",
     description:
-      "Zach "Asmongold" Hoyt Official Website. Check everything about your favorite Youtuber, Streamer, and Commentator. Lastest News, Tweets, Videos, and Vods",
+      "Zach 'Asmongold' Hoyt Official Website. Check everything about your favorite Youtuber, Streamer, and Commentator. Lastest News, Tweets, Videos, and Vods",
     url: SITE_URL,
     siteName: "Asmongold",
     type: "website",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Asmongold - Official Website from your Favorite Streamer",
     description:
-      "Zach "Asmongold" Hoyt Official Website. Check everything about your favorite Youtuber, Streamer, and Commentator. Lastest News, Tweets, Videos, and Vods",
+      "Zach 'Asmongold' Hoyt Official Website. Check everything about your favorite Youtuber, Streamer, and Commentator. Lastest News, Tweets, Videos, and Vods",
     images: ["/og.png"],
   },
   robots: { index: true, follow: true },
