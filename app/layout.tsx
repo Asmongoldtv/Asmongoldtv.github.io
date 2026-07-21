@@ -8,14 +8,14 @@ import { SITE_URL } from "@/lib/data";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Asmongold — Streamer, Commentator, MMO Legend",
+  title: "Asmongold - Official Website from your Favorite Streamer",
   description:
-    "The unofficial home of Asmongold: live status, latest videos, VODs, news, and every channel in one place. A fan-made concept site.",
+    "Zach "Asmongold" Hoyt Official Website. Check everything about your favorite Youtuber, Streamer, and Commentator. Lastest News, Tweets, Videos, and Vods",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "Asmongold — Streamer, Commentator, MMO Legend",
+    title: "Asmongold - Official Website from your Favorite Streamer",
     description:
-      "Live status, latest videos, VODs and news — every Asmongold channel in one place.",
+      "Zach "Asmongold" Hoyt Official Website. Check everything about your favorite Youtuber, Streamer, and Commentator. Lastest News, Tweets, Videos, and Vods",
     url: SITE_URL,
     siteName: "Asmongold",
     type: "website",
@@ -23,9 +23,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Asmongold — Streamer, Commentator, MMO Legend",
+    title: "Asmongold - Official Website from your Favorite Streamer",
     description:
-      "Live status, latest videos, VODs and news — every Asmongold channel in one place.",
+      "Zach "Asmongold" Hoyt Official Website. Check everything about your favorite Youtuber, Streamer, and Commentator. Lastest News, Tweets, Videos, and Vods",
     images: ["/og.png"],
   },
   robots: { index: true, follow: true },
