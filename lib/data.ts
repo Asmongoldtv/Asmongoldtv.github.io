@@ -28,6 +28,22 @@ export const BIO_PARAGRAPHS = [
 ] as const;
 
 
+/**
+ * Latest Tweets section — the three posts embedded on the page.
+ *
+ * These are official X embeds keyed by status id, so X serves the live
+ * content and there is nothing to keep in sync here. To feature different
+ * posts, swap the ids: they are the last path segment of a tweet URL,
+ * e.g. x.com/Asmongold/status/<id>.
+ */
+export const TWEET_HANDLE = "Asmongold";
+
+export const FEATURED_TWEET_IDS = [
+  "2041352900635422834",
+  "2009816212843442600",
+  "2007508319938965770",
+] as const;
+
 export type Platform = {
   id: string;
   name: string;

@@ -3,14 +3,11 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
-  # Refresh the tweet feed and republish four times a day.
-  schedule:
-    - cron: "0 */6 * * *"
   workflow_dispatch:
 
-# contents: write so the tweet sync can commit data/tweets.json back.
+# Least-privilege token that the Pages deploy needs.
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -31,28 +28,6 @@ jobs:
           cache: npm
 
       - run: npm ci
-
-      # Never fails the deploy: with no token, a rate limit or an X
-      # outage the script logs a notice and leaves the file alone.
-      - name: Sync latest tweets
-        run: node scripts/sync-tweets.mjs
-        env:
-          X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
-
-      # Committing here (rather than in a separate workflow) is deliberate:
-      # a push made with GITHUB_TOKEN does not trigger other workflows, so
-      # a standalone sync job would update the data but never republish.
-      - name: Commit new tweets
-        run: |
-          if [[ -n "$(git status --porcelain data/tweets.json)" ]]; then
-            git config user.name  "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add data/tweets.json
-            git commit -m "chore: sync latest tweets"
-            git push
-          else
-            echo "No tweet changes to commit."
-          fi
 
       - name: Build static export
         run: npm run build

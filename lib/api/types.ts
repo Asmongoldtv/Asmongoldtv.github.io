@@ -16,19 +16,6 @@ export type NewsItem = {
   image?: string;
 };
 
-export type Tweet = {
-  id: string;
-  handle: string;
-  name: string;
-  avatar?: string;
-  text: string;
-  date: string; // ISO
-  likes: number;
-  reposts: number;
-  replies: number;
-  href: string;
-};
-
 export type Video = {
   id: string;
   title: string;

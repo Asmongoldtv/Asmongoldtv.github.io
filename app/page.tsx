@@ -11,7 +11,6 @@ import { Nav } from "@/components/ui/Nav";
 import { RoachTrail } from "@/components/ui/RoachTrail";
 import { getLiveStatus, getLatestVods } from "@/lib/api/twitch";
 import { getLatestVideos } from "@/lib/api/youtube";
-import { getLatestTweets } from "@/lib/api/x";
 import { getNews } from "@/lib/api/news";
 
 /**
@@ -23,11 +22,10 @@ import { getNews } from "@/lib/api/news";
 export const dynamic = "force-static";
 
 export default async function Page() {
-  const [live, vods, videos, tweets, news] = await Promise.all([
+  const [live, vods, videos, news] = await Promise.all([
     getLiveStatus(),
     getLatestVods(),
     getLatestVideos(),
-    getLatestTweets(),
     getNews(),
   ]);
 
@@ -46,7 +44,7 @@ export default async function Page() {
           <Bio />
           <MediaChannels live={live} />
           <News items={news} />
-          <Tweets tweets={tweets} />
+          <Tweets />
           <Videos videos={videos} />
           <Vods vods={vods} />
           <Sponsors />

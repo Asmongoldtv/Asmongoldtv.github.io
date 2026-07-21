@@ -36,7 +36,6 @@ All optional — every fetcher degrades to curated fallback data.
 | `NEXT_PUBLIC_SITE_URL` | canonical / OG / sitemap URL (set by the deploy workflow) |
 | `TWITCH_CLIENT_ID` / `TWITCH_CLIENT_SECRET` | live status + VODs |
 | `YOUTUBE_API_KEY` | latest videos |
-| `X_BEARER_TOKEN` | tweet sync script only (see below) |
 | `NEWS_FEED_URL` | news RSS feed |
 
 Copy `.env.example` → `.env.local` to set them locally.
@@ -65,38 +64,24 @@ node scripts/gen-placeholders.mjs                  # favicon, thumbnails, OG ima
 
 ## Tweets
 
-`data/tweets.json` is the single source of truth for the Latest Tweets
-marquee — the site only ever reads that file, so a build never depends on X
-being reachable, and the tweets are versioned in git.
+The Latest Tweets section uses **official X embeds** — X serves the live post,
+so no API key is involved and the text can never drift out of date.
 
-To pull in new ones:
+To feature different posts, edit `FEATURED_TWEET_IDS` in `lib/data.ts`. Each
+id is the last path segment of a tweet URL:
 
-```bash
-X_BEARER_TOKEN=... node scripts/sync-tweets.mjs
+```
+https://x.com/Asmongold/status/2041352900635422834
+                               └──────── this ────────┘
 ```
 
-The script **merges** rather than replaces: existing tweets are kept, new ones
-are added, duplicates resolve in favour of the fresher copy (so like and
-repost counts refresh), and the result is sorted newest-first and capped at
-`TWEET_LIMIT` (default 16). Running it twice with no new tweets writes
-nothing.
-
-It never fails its caller: a missing token, a rate limit or an X outage logs a
-notice and exits 0, leaving the file untouched. The deploy workflow runs it on
-a 6-hour schedule and commits the file only when it actually changed.
-
-> **Requires a paid X API plan.** Reading a user's timeline is not part of the
-> free tier — on free the script reports a 403 and skips. Until then,
-> `data/tweets.json` can simply be edited by hand; the format is one object
-> per tweet with `id`, `handle`, `name`, `text`, `date` (ISO), `likes`,
-> `reposts`, `replies` and `href`.
+`components/ui/TweetEmbed.tsx` loads X's `widgets.js` once per page and asks
+it to render the blockquotes. If the script is blocked (ad blockers commonly
+do) or JS is off, the blockquote stays visible as a styled link, so the
+section is never empty.
 
 ## Deploy
 
 `.github/workflows/deploy.yml` builds the static export and publishes it to
-GitHub Pages. It runs on every push to `main`, on a 6-hour schedule (to pick
-up new tweets), and on demand via **Actions → Run workflow**.
-
-The tweet sync commits inside that same workflow on purpose: a push made with
-`GITHUB_TOKEN` does not trigger other workflows, so a standalone sync job
-would update the data but never republish the site.
+GitHub Pages. It runs on every push to `main` and on demand via
+**Actions → Run workflow**.

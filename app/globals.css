@@ -83,6 +83,31 @@ body {
   box-decoration-break: clone;
 }
 
+/**
+ * X embeds. Until widgets.js swaps the blockquote for its iframe — or if
+ * an ad blocker stops it entirely — this keeps the fallback looking like a
+ * deliberate card rather than raw unstyled text.
+ */
+.tweet-embed .twitter-tweet:not(.twitter-tweet-rendered) {
+  margin: 0;
+  padding: 1.5rem;
+  border: 1px solid var(--stroke);
+  border-radius: 12px;
+  background: var(--bg-surface);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink);
+}
+.tweet-embed .twitter-tweet:not(.twitter-tweet-rendered) a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+/* X sets its own outer margins once rendered; keep the grid gap in charge. */
+.tweet-embed .twitter-tweet-rendered {
+  margin: 0 !important;
+}
+
 /* Frosted panel, as used for the floating cards in the hero */
 .card-frost {
   background: var(--card-bg);
