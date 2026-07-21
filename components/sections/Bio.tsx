@@ -21,7 +21,7 @@ export function Bio() {
             id="bio-heading"
             className="display text-4xl text-ink sm:text-5xl lg:text-6xl"
           >
-            From Azeroth to <span className="hl">everywhere</span>
+            From WOW to the <span className="hl">World</span>
           </h2>
         </Reveal>
 
