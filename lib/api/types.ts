@@ -28,13 +28,16 @@ export type Video = {
   href: string;
 };
 
+/**
+ * Shape written by scripts/sync-vods.mjs. No game/category: Twitch's
+ * Helix /videos endpoint does not return one.
+ */
 export type Vod = {
-  id: string;
+  id: string; // numeric Twitch VOD id
   title: string;
-  game: string;
   thumbnail: string;
   streamedAt: string; // ISO
   duration: string; // "7h 12m"
-  peakViewers: number;
+  views: number;
   href: string;
 };

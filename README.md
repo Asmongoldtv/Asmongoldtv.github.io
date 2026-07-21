@@ -34,7 +34,7 @@ All optional — every fetcher degrades to curated fallback data.
 | Var | Purpose |
 | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | canonical / OG / sitemap URL (set by the deploy workflow) |
-| `TWITCH_CLIENT_ID` / `TWITCH_CLIENT_SECRET` | live status + VODs |
+| `TWITCH_CLIENT_ID` / `TWITCH_CLIENT_SECRET` | VOD sync + live status (free, see VODs) |
 | `NEWS_FEED_URL` | news RSS feed |
 | `YOUTUBE_CHANNEL_ID` | override the channel the video sync reads (has a default) |
 
@@ -108,6 +108,39 @@ megabyte of third-party script before anyone pressed play.
 
 > The RSS feed carries no duration, so durations are not shown — that field
 > only exists in the quota-limited Data API.
+
+## VODs
+
+The Latest VODs section shows the channel's most recent past broadcasts,
+playable inline via the Twitch player.
+
+```bash
+TWITCH_CLIENT_ID=... TWITCH_CLIENT_SECRET=... node scripts/sync-vods.mjs
+```
+
+Unlike YouTube, Twitch has no public feed — this uses the official Helix
+API. **The credentials are free**: register an app at
+<https://dev.twitch.tv/console>, take its Client ID and Secret, and add them
+as repository secrets. No review, no cost, no user login; the script only
+reads public data through the client-credentials flow.
+
+Same contract as the video sync: it keeps the newest `VOD_LIMIT` (default 5),
+runs before every build, is not committed, and never fails the deploy — with
+no credentials it logs a notice and the committed fallback is used.
+
+`components/ui/TwitchEmbed.tsx` uses the same thumbnail-facade approach as
+YouTube. Two details worth knowing:
+
+- **`parent` is read from `window.location.hostname` at click time**, never
+  hardcoded. Twitch refuses to play when `parent` does not match the
+  embedding host, and that is the most common way these embeds break;
+  deriving it means localhost, the Pages domain and any future custom domain
+  all work with no configuration.
+- Until the sync runs, `data/vods.json` holds placeholder entries whose ids
+  are not numeric. Those render as **link-outs to Twitch** rather than a
+  player that could only ever error.
+
+> Helix `/videos` returns no game or category, so none is shown.
 
 ## Deploy
 

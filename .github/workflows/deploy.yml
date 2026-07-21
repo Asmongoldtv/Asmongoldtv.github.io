@@ -41,6 +41,15 @@ jobs:
       - name: Sync latest videos
         run: node scripts/sync-videos.mjs
 
+      # Same deal for Twitch. Needs free credentials from
+      # https://dev.twitch.tv/console added as repository secrets; without
+      # them the script logs a notice and the committed fallback is used.
+      - name: Sync latest VODs
+        run: node scripts/sync-vods.mjs
+        env:
+          TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT_ID }}
+          TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
+
       - name: Build static export
         run: npm run build
         env:
@@ -48,6 +57,9 @@ jobs:
           # base path. The canonical/OG/sitemap URL is derived from the repo
           # owner, so nothing here is hardcoded.
           NEXT_PUBLIC_SITE_URL: https://${{ github.repository_owner }}.github.io
+          # Lets the build read live status; optional.
+          TWITCH_CLIENT_ID: ${{ secrets.TWITCH_CLIENT_ID }}
+          TWITCH_CLIENT_SECRET: ${{ secrets.TWITCH_CLIENT_SECRET }}
 
       - uses: actions/upload-pages-artifact@v3
         with:

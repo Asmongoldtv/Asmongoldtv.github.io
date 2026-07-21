@@ -1,0 +1,29 @@
+[
+  {
+    "id": "placeholder-1",
+    "title": "Latest full broadcast",
+    "thumbnail": "/assets/thumbs/vod-1.svg",
+    "streamedAt": "2026-07-18T18:00:00Z",
+    "duration": "8h 12m",
+    "views": 61400,
+    "href": "https://www.twitch.tv/zackrawrr/videos?filter=archives&sort=time"
+  },
+  {
+    "id": "placeholder-2",
+    "title": "Previous full broadcast",
+    "thumbnail": "/assets/thumbs/vod-2.svg",
+    "streamedAt": "2026-07-16T18:30:00Z",
+    "duration": "6h 45m",
+    "views": 54100,
+    "href": "https://www.twitch.tv/zackrawrr/videos?filter=archives&sort=time"
+  },
+  {
+    "id": "placeholder-3",
+    "title": "Earlier full broadcast",
+    "thumbnail": "/assets/thumbs/vod-3.svg",
+    "streamedAt": "2026-07-14T17:00:00Z",
+    "duration": "9h 02m",
+    "views": 72800,
+    "href": "https://www.twitch.tv/zackrawrr/videos?filter=archives&sort=time"
+  }
+]
