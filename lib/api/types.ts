@@ -7,15 +7,6 @@ export type LiveStatus = {
   title?: string;
 };
 
-export type NewsItem = {
-  id: string;
-  date: string; // ISO
-  headline: string;
-  excerpt: string;
-  href: string;
-  image?: string;
-};
-
 /**
  * Shape written by scripts/sync-videos.mjs. No duration: YouTube's public
  * RSS feed does not carry one (that needs the quota-limited Data API).

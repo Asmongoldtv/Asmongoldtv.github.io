@@ -1,6 +1,7 @@
+import Link from "next/link";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
-import type { NewsItem } from "@/lib/api/types";
+import { ARTICLES, articleImage, type Article } from "@/lib/articles";
 
 function fmtDate(iso: string) {
   return new Date(iso)
@@ -26,9 +27,34 @@ function Arrow() {
   );
 }
 
-/** Editorial layout: one featured story + stacked column. Server component. */
-export function News({ items }: { items: NewsItem[] }) {
-  const [featured, ...rest] = items;
+function Thumb({ article, className }: { article: Article; className?: string }) {
+  const base = articleImage(article.slug, 800);
+  return (
+    <picture>
+      <source
+        type="image/avif"
+        srcSet={`${base}.avif 800w, ${articleImage(article.slug, 1400)}.avif 1400w`}
+        sizes="(max-width: 1024px) 100vw, 55vw"
+      />
+      <source
+        type="image/webp"
+        srcSet={`${base}.webp 800w, ${articleImage(article.slug, 1400)}.webp 1400w`}
+        sizes="(max-width: 1024px) 100vw, 55vw"
+      />
+      <img
+        src={`${base}.webp`}
+        alt=""
+        loading="lazy"
+        decoding="async"
+        className={className}
+      />
+    </picture>
+  );
+}
+
+/** Editorial layout: one featured article + a stacked column. */
+export function News() {
+  const [featured, ...rest] = ARTICLES;
   if (!featured) return null;
 
   return (
@@ -40,71 +66,58 @@ export function News({ items }: { items: NewsItem[] }) {
       <SectionHeading id="news-heading" lead="Latest" highlight="News" />
 
       <div className="grid gap-12 lg:grid-cols-[3fr_2fr] lg:gap-16">
-        {/* Featured story */}
+        {/* Featured */}
         <Reveal as="article">
-          <a href={featured.href} target="_blank" rel="noopener noreferrer" className="group block">
-            <div className="relative aspect-[16/10] overflow-hidden bg-surface">
-              {featured.image && (
-                <img
-                  src={featured.image}
-                  alt=""
-                  loading="lazy"
-                  decoding="async"
-                  className="h-full w-full object-cover transition-transform duration-700 [transition-timing-function:var(--ease-entrance)] group-hover:scale-[1.03]"
-                />
-              )}
-              <span
-                aria-hidden
-                className="absolute inset-0 bg-gradient-to-t from-canvas/80 via-transparent to-transparent"
+          <Link href={`/news/${featured.slug}/`} className="group block">
+            <div className="relative aspect-[16/10] overflow-hidden rounded-sm bg-surface">
+              <Thumb
+                article={featured}
+                className="h-full w-full object-cover transition-transform duration-700 [transition-timing-function:var(--ease-entrance)] group-hover:scale-[1.03]"
               />
             </div>
-            <p className="mt-6 text-xs tracking-[0.12em] text-ink">
-              {fmtDate(featured.date)}
+            <p className="label mt-6 !text-gold-deep">
+              {fmtDate(featured.date)} · {featured.topic}
             </p>
-            <h3 className="display mt-3 max-w-[24ch] text-2xl leading-tight text-ink md:text-3xl">
-              <span className="underline-wipe">{featured.headline}</span>
+            <h3 className="display mt-3 max-w-[26ch] text-2xl leading-tight text-ink md:text-3xl">
+              <span className="underline-wipe">{featured.title}</span>
             </h3>
-            <p className="mt-3 line-clamp-2 max-w-[54ch] text-muted">{featured.excerpt}</p>
+            <p className="mt-3 line-clamp-3 max-w-[58ch] text-muted">
+              {featured.excerpt}
+            </p>
             <span className="mt-4 flex items-center gap-2 text-[11px] uppercase tracking-[0.12em] text-muted">
               Read <Arrow />
             </span>
-          </a>
+          </Link>
         </Reveal>
 
         {/* Stacked column */}
         <div className="flex flex-col divide-y divide-[var(--stroke)]">
-          {rest.slice(0, 3).map((n, i) => (
-            <Reveal as="article" key={n.id} delay={i * 0.08}>
-              <a
-                href={n.href}
-                target="_blank"
-                rel="noopener noreferrer"
+          {rest.map((n, i) => (
+            <Reveal as="article" key={n.slug} delay={i * 0.08}>
+              <Link
+                href={`/news/${n.slug}/`}
                 className="group flex gap-5 py-7 first:pt-0"
               >
-                <div className="relative aspect-[4/3] w-28 shrink-0 overflow-hidden bg-surface">
-                  {n.image && (
-                    <img
-                      src={n.image}
-                      alt=""
-                      loading="lazy"
-                      decoding="async"
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.05]"
-                    />
-                  )}
+                {/* self-start or the flex row stretches this to the full
+                    item height and the aspect ratio is ignored, which
+                    crops the thumbnail's artwork. */}
+                <div className="relative aspect-[16/10] w-28 shrink-0 self-start overflow-hidden rounded-sm bg-surface">
+                  <Thumb
+                    article={n}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.05]"
+                  />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-[11px] tracking-[0.12em] text-ink">
-                    {fmtDate(n.date)}
-                  </p>
+                  <p className="label !text-gold-deep">{n.topic}</p>
                   <h3 className="display mt-2 text-lg leading-snug text-ink">
-                    <span className="underline-wipe">{n.headline}</span>
+                    <span className="underline-wipe">{n.title}</span>
                   </h3>
                   <p className="mt-2 line-clamp-2 text-sm text-muted">{n.excerpt}</p>
                 </div>
                 <span className="ml-auto self-center">
                   <Arrow />
                 </span>
-              </a>
+              </Link>
             </Reveal>
           ))}
         </div>

@@ -12,22 +12,29 @@ import { EASE_ENTRANCE, STAGGER } from "@/lib/motion";
  * bar stays hidden until the hero has scrolled past — otherwise the same
  * links appear twice on first paint. On mobile the hero row is hidden, so
  * the bar (logo + menu button) is always present.
+ *
+ * `solid` opts out of that: article pages have no hero, so there is
+ * nothing to defer to and the bar must be visible from the top.
  */
-export function Nav({ live }: { live: LiveStatus }) {
-  const [scrolled, setScrolled] = useState(false);
+export function Nav({ live, solid = false }: { live: LiveStatus; solid?: boolean }) {
+  const [scrolled, setScrolled] = useState(solid);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
+    if (solid) return;
     const onScroll = () => setScrolled(window.scrollY > window.innerHeight * 0.9);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [solid]);
 
   const anchor = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     setOpen(false);
-    scrollToAnchor(href);
+    // Article pages have none of these sections, so smooth-scrolling would
+    // do nothing. Send the visitor to the homepage anchor instead.
+    if (document.querySelector(href)) scrollToAnchor(href);
+    else window.location.href = `/${href}`;
   };
 
   return (
