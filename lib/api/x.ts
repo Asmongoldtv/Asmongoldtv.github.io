@@ -1,64 +1,20 @@
 import "server-only";
 import type { Tweet } from "./types";
-import fallbackTweets from "@/data/tweets.json";
+import stored from "@/data/tweets.json";
 
 /**
- * X / Twitter fetcher.
+ * Tweets come from data/tweets.json, which is the single source of truth.
  *
- * NOTE ON API ACCESS: the X API v2 free tier does not cover reading a
- * user's timeline, and paid tiers are expensive for a fan site. The
- * fetch path below is implemented and gated on X_BEARER_TOKEN, but the
- * PRIMARY data source in practice is data/tweets.json — a manually
- * maintained file. Update it whenever you want fresh tweets on the
- * marquee. This is a deliberate fallback, not a stub.
+ * That file is populated by scripts/sync-tweets.mjs, which talks to the X
+ * API and merges new tweets in. Keeping ingestion in the script and out of
+ * the render path means the build never depends on X being reachable, and
+ * the tweets are versioned in git.
+ *
+ * To refresh manually: `node scripts/sync-tweets.mjs` (needs
+ * X_BEARER_TOKEN). The file can also just be hand-edited.
  */
-
 export async function getLatestTweets(): Promise<Tweet[]> {
-  const token = process.env.X_BEARER_TOKEN;
-  if (!token) return fallbackTweets as Tweet[];
-
-  try {
-    const userRes = await fetch(
-      "https://api.x.com/2/users/by/username/Asmongold",
-      {
-        headers: { Authorization: `Bearer ${token}` },
-        next: { revalidate: 1800 },
-      },
-    );
-    if (!userRes.ok) return fallbackTweets as Tweet[];
-    const user = await userRes.json();
-    const id = user.data?.id;
-    if (!id) return fallbackTweets as Tweet[];
-
-    const tlRes = await fetch(
-      `https://api.x.com/2/users/${id}/tweets?max_results=12&tweet.fields=created_at,public_metrics&exclude=retweets,replies`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-        next: { revalidate: 1800 },
-      },
-    );
-    if (!tlRes.ok) return fallbackTweets as Tweet[];
-    const tl = await tlRes.json();
-
-    return (tl.data ?? []).map(
-      (t: {
-        id: string;
-        text: string;
-        created_at: string;
-        public_metrics: { like_count: number; retweet_count: number; reply_count: number };
-      }): Tweet => ({
-        id: t.id,
-        handle: "@Asmongold",
-        name: "Asmongold",
-        text: t.text,
-        date: t.created_at,
-        likes: t.public_metrics.like_count,
-        reposts: t.public_metrics.retweet_count,
-        replies: t.public_metrics.reply_count,
-        href: `https://x.com/asmongold/status/${t.id}`,
-      }),
-    );
-  } catch {
-    return fallbackTweets as Tweet[];
-  }
+  return (stored as Tweet[])
+    .slice()
+    .sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
 }
