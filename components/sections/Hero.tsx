@@ -240,7 +240,7 @@ export function Hero() {
           data-card
           className="card-frost-solid rounded-sm px-7 py-5 text-center"
         >
-          <p className="label mb-2">Welcome</p>
+          <p className="label mb-2">What's Up Guys</p>
           <p className="display text-2xl leading-tight text-ink sm:text-3xl">
             Welcome to my Nest
           </p>
