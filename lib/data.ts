@@ -23,8 +23,8 @@ export const HERO_STATS = [
 
 /** Short lead for the About Me section. Two paragraphs, deliberately tight. */
 export const BIO_PARAGRAPHS = [
-  "Zack started uploading World of Warcraft commentary because nobody else was saying what he was thinking. Twitch turned that voice into the town square of the MMO world — six-figure concurrent peaks, viewership records, and a community that treated patch days like national holidays.",
-  "In 2019 he co-founded One True King. The act after that is the biggest: a pivot from raid nights to the news desk, and one of the most-quoted voices in gaming culture — same chair, much bigger arena.",
+  "Zack, better known as Asmongold, went from making World of Warcraft guides in his bedroom to becoming one of the most-watched streamers in the world. No polished set, no script, no filter. Just blunt takes and an audience that trusts him because of it.",
+  "He's the reason Final Fantasy XIV sold out. He co-founded OTK and Starforge Systems. He's covered everything from raid nights to election nights to hundreds of thousands of live viewers. Whether he's reacting, reviewing, or picking a fight with a game studio, he's built a following on one thing: he says what he actually thinks.",
 ] as const;
 
 
@@ -65,16 +65,13 @@ export const PLATFORMS: Platform[] = [
     followers: 2_400_000,
     followerLabel: "followers",
     brandColor: "#9146FF",
-    // Kept short: this renders as a pill on a narrow card and the handle
-    // made it wrap to two lines.
-    subLink: { label: "VOD reruns", href: "https://twitch.tv/asmongold247" },
   },
   {
     id: "kick",
     name: "Kick",
     handle: "kick.com/asmongold",
     href: "https://kick.com/asmongold",
-    followers: 480_000,
+    followers: 313_000,
     followerLabel: "followers",
     brandColor: "#53FC18",
   },
@@ -83,7 +80,7 @@ export const PLATFORMS: Platform[] = [
     name: "YouTube",
     handle: "@AsmonTV",
     href: "https://youtube.com/@AsmonTV",
-    followers: 3_200_000,
+    followers: 4_600_000,
     followerLabel: "subscribers",
     brandColor: "#FF0000",
     subLink: { label: "Second channel", href: "https://youtube.com/@ZackRawrr" },
@@ -93,25 +90,16 @@ export const PLATFORMS: Platform[] = [
     name: "Rumble",
     handle: "rumble.com/c/Asmongold",
     href: "https://rumble.com/c/Asmongold",
-    followers: 210_000,
+    followers: 66_000,
     followerLabel: "followers",
     brandColor: "#85C742",
-  },
-  {
-    id: "spotify",
-    name: "Spotify",
-    handle: "Asmongold Podcasts",
-    href: "https://open.spotify.com/",
-    followers: 95_000,
-    followerLabel: "followers",
-    brandColor: "#1DB954",
   },
   {
     id: "x",
     name: "X",
     handle: "@Asmongold",
     href: "https://x.com/asmongold",
-    followers: 1_900_000,
+    followers: 1_300_000,
     followerLabel: "followers",
     // X's mark is black. The old near-white value was for the dark theme
     // and disappears against the light cards.
@@ -120,12 +108,9 @@ export const PLATFORMS: Platform[] = [
 ];
 
 export const SPONSORS = [
-  "NORDVPN",
   "GAMER SUPPS",
-  "DISPLATE",
+  "OTK NETWORK",
   "STARFORGE",
-  "MEDAL.TV",
-  "CASHAPP",
 ] as const;
 
 export const FOOTER_COLUMNS = [
@@ -142,8 +127,8 @@ export const FOOTER_COLUMNS = [
     title: "Follow",
     links: [
       { label: "X / Twitter", href: "https://x.com/asmongold" },
-      { label: "Spotify", href: "https://open.spotify.com/" },
-      { label: "OTK", href: "https://otknetwork.com" },
+      { label: "Instragram", href: "https://www.instagram.com/asmongold/" },
+      { label: "Reddit", href: "https://www.reddit.com/r/Asmongold/" },
     ],
   },
   {
