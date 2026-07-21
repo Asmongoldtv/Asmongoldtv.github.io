@@ -1,5 +1,4 @@
-import { FOOTER_COLUMNS, PLATFORMS } from "@/lib/data";
-import { PlatformIcon } from "@/components/ui/PlatformIcon";
+import { FOOTER_COLUMNS } from "@/lib/data";
 import { Reveal } from "@/components/ui/Reveal";
 
 export function Footer() {
@@ -32,48 +31,29 @@ export function Footer() {
 
       <div className="relative mx-auto max-w-[1440px] px-6 pb-10 pt-14 lg:px-10">
         <Reveal>
-          <div className="flex flex-col gap-12 md:flex-row md:justify-between">
-            <div className="grid grid-cols-2 gap-12 sm:grid-cols-3">
-              {FOOTER_COLUMNS.map((col) => (
-                <nav key={col.title} aria-label={col.title}>
-                  <p className="label mb-5 !text-gold-deep">{col.title}</p>
-                  <ul className="flex flex-col gap-3">
-                    {col.links.map((l) => (
-                      <li key={l.label}>
-                        <a
-                          href={l.href}
-                          {...(l.href.startsWith("http")
-                            ? { target: "_blank", rel: "noopener noreferrer" }
-                            : {})}
-                          className="text-sm text-ink/80 transition-colors duration-200 hover:opacity-60"
-                        >
-                          {l.label}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </nav>
-              ))}
-            </div>
-
-            <div className="md:text-right">
-              <p className="label mb-5 !text-gold-deep">Social</p>
-              <ul className="flex gap-5 md:justify-end">
-                {PLATFORMS.map((p) => (
-                  <li key={p.id}>
-                    <a
-                      href={p.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={p.name}
-                      className="text-muted transition-colors duration-200 hover:opacity-60"
-                    >
-                      <PlatformIcon id={p.id} className="size-5" />
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          {/* Columns centred as a group, and each column centred within
+              itself, so the labels sit directly over their links. */}
+          <div className="mx-auto grid max-w-3xl grid-cols-2 justify-items-center gap-x-10 gap-y-12 text-center sm:grid-cols-3">
+            {FOOTER_COLUMNS.map((col) => (
+              <nav key={col.title} aria-label={col.title}>
+                <p className="label mb-5 !text-gold-deep">{col.title}</p>
+                <ul className="flex flex-col gap-3">
+                  {col.links.map((l) => (
+                    <li key={l.label}>
+                      <a
+                        href={l.href}
+                        {...(l.href.startsWith("http")
+                          ? { target: "_blank", rel: "noopener noreferrer" }
+                          : {})}
+                        className="text-sm text-ink/80 transition-colors duration-200 hover:opacity-60"
+                      >
+                        {l.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            ))}
           </div>
         </Reveal>
 

@@ -12,7 +12,10 @@ export function Sponsors() {
     >
       <SectionHeading id="sponsors-heading" highlight="Partners" />
       <Reveal>
-        <ul className="sponsor-row flex flex-wrap items-center gap-x-14 gap-y-10 lg:justify-between">
+        {/* Centred with a tighter gap. `lg:justify-between` used to push the
+            logos to the far edges, which stretched them right across the
+            page now that there are only three. */}
+        <ul className="sponsor-row flex flex-wrap items-center justify-center gap-x-12 gap-y-8">
           {SPONSORS.map((s) => (
             <li key={s}>
               <span

@@ -127,7 +127,7 @@ export const FOOTER_COLUMNS = [
     title: "Follow",
     links: [
       { label: "X / Twitter", href: "https://x.com/asmongold" },
-      { label: "Instragram", href: "https://www.instagram.com/asmongold/" },
+      { label: "Instagram", href: "https://www.instagram.com/asmongold/" },
       { label: "Reddit", href: "https://www.reddit.com/r/Asmongold/" },
     ],
   },

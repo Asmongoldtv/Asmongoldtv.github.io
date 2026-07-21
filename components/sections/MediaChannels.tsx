@@ -137,7 +137,7 @@ export function MediaChannels({ live }: { live: LiveStatus }) {
       aria-labelledby="channels-heading"
       className="mx-auto max-w-[1440px] px-6 py-28 md:py-40 lg:px-10"
     >
-      <SectionHeading id="channels-heading" lead="Every channel," highlight="one voice" />
+      <SectionHeading id="channels-heading" lead="Asmongold Media" highlight="Channels" />
       {/* Capped at 70% of the container — a proportional 30% size cut that
           keeps the 3x2 grid rather than orphaning a row. Left-aligned, not
           centred, so the grid's edge lines up with the heading above it.
