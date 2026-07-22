@@ -32,7 +32,7 @@ export default async function Page() {
       {/* No preloader: the hero's own entrance is the intro, matching the
           reference. Stacking a 2.2s counter in front of a 2.7s entrance
           just delayed the page twice. */}
-      <Nav live={live} />
+      <Nav />
       {/* Relative so the trail's absolute SVG measures against the document
           rather than the viewport. */}
       <div className="relative">

@@ -9,7 +9,6 @@ import {
   getArticle,
   renderArticleBody,
 } from "@/lib/articles";
-import { getLiveStatus } from "@/lib/api/twitch";
 import { SITE_URL } from "@/lib/data";
 
 export const dynamic = "force-static";
@@ -67,10 +66,7 @@ export default async function ArticlePage({
   const article = getArticle(slug);
   if (!article) notFound();
 
-  const [live, body] = await Promise.all([
-    getLiveStatus(),
-    Promise.resolve(renderArticleBody(slug)),
-  ]);
+  const body = renderArticleBody(slug);
 
   // Split on where the highlight actually occurs, not on the assumption
   // that it is the trailing run — "GTA 6: Every Take Ahead of..." has it
@@ -102,7 +98,7 @@ export default async function ArticlePage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       {/* Articles have no hero, so the nav is always solid here. */}
-      <Nav live={live} solid />
+      <Nav solid />
 
       <main className="pt-16">
         <article className="mx-auto max-w-[820px] px-6 pb-24 pt-16 md:pt-24">
