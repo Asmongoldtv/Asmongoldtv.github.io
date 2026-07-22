@@ -67,12 +67,22 @@ node scripts/gen-placeholders.mjs                  # favicon, thumbnails, OG ima
 The Latest Tweets section uses **official X embeds** — X serves the live post,
 so no API key is involved and the text can never drift out of date.
 
-To feature different posts, edit `FEATURED_TWEET_IDS` in `lib/data.ts`. Each
-id is the last path segment of a tweet URL:
+To feature different posts, edit `FEATURED_TWEETS` in `lib/data.ts`. Each id
+is the last path segment of a post URL:
 
 ```
 https://x.com/Asmongold/status/2041352900635422834
                                └──────── this ────────┘
+```
+
+**Replies work too** — a reply is just a post with its own id. Add
+`thread: true` to those entries so the embed also renders the post being
+replied to; without it the reply appears with no context. Standalone posts
+leave the flag off, which keeps the card compact.
+
+```ts
+{ id: "2041352900635422834" },              // standalone post
+{ id: "1234567890123456789", thread: true } // reply, shows the parent
 ```
 
 `components/ui/TweetEmbed.tsx` loads X's `widgets.js` once per page and asks

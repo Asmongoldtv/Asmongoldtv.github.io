@@ -29,20 +29,35 @@ export const BIO_PARAGRAPHS = [
 
 
 /**
- * Latest Tweets section — the three posts embedded on the page.
+ * Latest Tweets section — the posts embedded on the page.
  *
  * These are official X embeds keyed by status id, so X serves the live
  * content and there is nothing to keep in sync here. To feature different
- * posts, swap the ids: they are the last path segment of a tweet URL,
+ * posts, swap the ids: they are the last path segment of a post URL,
  * e.g. x.com/Asmongold/status/<id>.
+ *
+ * Replies work too — a reply is just a post with its own id. Add
+ * `thread: true` to those so the embed also shows what he was replying
+ * to; the grid is three-up, so more than three will wrap to a new row.
  */
 export const TWEET_HANDLE = "Asmongold";
 
-export const FEATURED_TWEET_IDS = [
-  "2041352900635422834",
-  "2009816212843442600",
-  "2007508319938965770",
-] as const;
+export type FeaturedTweet = {
+  /** Last path segment of the post URL: x.com/Asmongold/status/<id> */
+  id: string;
+  /**
+   * Set true for a reply, so the embed also shows the post being replied
+   * to. Without it a reply appears with no context. Leave it off for
+   * standalone posts to keep the card compact.
+   */
+  thread?: boolean;
+};
+
+export const FEATURED_TWEETS: FeaturedTweet[] = [
+  { id: "2041352900635422834" },
+  { id: "2009816212843442600" },
+  { id: "2007508319938965770" },
+];
 
 export type Platform = {
   id: string;

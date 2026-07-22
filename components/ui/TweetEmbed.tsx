@@ -58,10 +58,17 @@ function loadWidgets(): Promise<void> {
 export function TweetEmbed({
   id,
   handle,
+  thread = false,
 }: {
   /** Numeric status id from the tweet URL. */
   id: string;
   handle: string;
+  /**
+   * Show the post being replied to above this one. Set it for replies —
+   * without the parent, a reply reads as an answer to nothing. Standalone
+   * posts leave it off so the card stays compact.
+   */
+  thread?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [rendered, setRendered] = useState(false);
@@ -88,7 +95,7 @@ export function TweetEmbed({
         className="twitter-tweet"
         data-theme="light"
         data-dnt="true"
-        data-conversation="none"
+        {...(thread ? {} : { "data-conversation": "none" })}
       >
         <a href={url}>View post on X</a>
       </blockquote>
